@@ -1,12 +1,21 @@
 import os
+import sys
 import win32com.client
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment
 from datetime import datetime
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 class ReportExporter:
     def __init__(self, template_path='templates/template.xlsx', base_dir='data/reports'):
-        self.template_path = template_path
+        self.template_path = resource_path(template_path)
         self.set_output_dir(base_dir)
 
     def set_output_dir(self, base_dir):
